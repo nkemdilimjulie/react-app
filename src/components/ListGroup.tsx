@@ -1,23 +1,27 @@
- 
-function ListGroup() {
-  //const items =["New York", "San Francisco", "Tokyo", "London", "Paris"]
-  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+ import { MouseEvent } from "react";
 
+function ListGroup() {
+
+  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+  // Event handler handles events e.g this Click event
+  const handleClick = (event: MouseEvent)=> console.log(event)
 
   return (
     <>
       <h1>List</h1>
       {items.length === 0 && <p>No item found</p>}   
       <ul className="list-group"> 
-        {items.map((item) => (
+        {items.map((item, index) => (
           <li 
-          className="list-group-item"
-          key={item} 
-          onClick={() => console.log('Clicked')}>{item}</li>
+            className="list-group-item"
+            key={item} 
+            onClick={handleClick}
+          >
+            {item}
+          </li>
         ))}  
       </ul>
     </>
   )};
-
 
 export default ListGroup;

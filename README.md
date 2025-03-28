@@ -254,11 +254,12 @@ export default ListGroup;
 You can later remove the first statement of the two repetitions above. It was used for demonstrations.
 
 
-+ Each property of each prompt is separated on a different line:
++ Each property of each prompt is separated on a different line.
++ Each property **clicked** is logged or counted on the console: onClick={() => console.log("Clicked")}
 
 ```
 function ListGroup() {
-  //const items =["New York", "San Francisco", "Tokyo", "London", "Paris"]
+
   let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
 
 
@@ -268,10 +269,13 @@ function ListGroup() {
       {items.length === 0 && <p>No item found</p>}   
       <ul className="list-group"> 
         {items.map((item) => (
-          <li 
-          className="list-group-item"
-          key={item} 
-          onClick={() => console.log('Clicked')}>{item}</li>
+            <li 
+                className="list-group-item"
+                key={item} 
+                onClick={() => console.log("Clicked")}
+            >
+                {item}
+            </li>
         ))}  
       </ul>
     </>
@@ -281,7 +285,137 @@ function ListGroup() {
 export default ListGroup;
 
 ```
+## click on each property and see the property(item) on the console
+Each **element* has a property which is **called** on click. Each property of each prompt is on a separate line.
++ specify **onClick** with braces **{}** or with a bracket with no parameters and **console.log**.
++ Each property or item **clicked** is logged and shown on the console: onClick={() => console.log(item)}
+Here: **item** is used to replace **"Clicked"**
 
+```
+function ListGroup() {
+
+  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+
+  return (
+    <>
+      <h1>List</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item) => (
+          <li 
+            className="list-group-item"
+            key={item} 
+            onClick={()=> console.log(item)}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+```
+
+ ## Item and Index of Item clicked is displayed(sent to console): Index in the array
+
+ function ListGroup() {
+
+  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+
+  return (
+    <>
+      <h1>List</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item, index) => (
+          <li 
+            className="list-group-item"
+            key={item} 
+            onClick={()=> console.log(item, index)}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+
+# Handling Events
+An Event is an **action** performed when a button is triggered by a user or a system.
+
+## onClick Arrow function can optionally have a function e.g event
++ Every object has an Event. 
++ There are SyntheticBaseEvent, nativeEvent, PointerEvent, etc.
++ SyntheticBaseEvent is one of the **built-in classes** in React and is a wrapper to nativeEvent
+
++ Different browsers have different implementations of event objects
+
+
+```
+function ListGroup() {
+
+  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+
+  return (
+    <>
+      <h1>List</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item, index) => (
+          <li 
+            className="list-group-item"
+            key={item} 
+            onClick={(event)=> console.log(event)}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+```
+
+## A Function can be used as an Event, called or performed on click
+** Example is a handleClick
+
+```
+ import { MouseEvent } from "react";
+
+function ListGroup() {
+
+  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+  // Event handler handles events e.g this Click event
+  const handleClick = (event: MouseEvent)=> console.log(event)
+
+  return (
+    <>
+      <h1>List</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item, index) => (
+          <li 
+            className="list-group-item"
+            key={item} 
+            onClick={handleClick}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+```
 
 
 
