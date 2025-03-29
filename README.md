@@ -417,5 +417,292 @@ export default ListGroup;
 
 ```
 
+# Highlights an Item onClick 
++ uses Bootstrap class , Active (currently running class)
++ we need a variable to keep track of the **index** of the selected item
++ the variable is initialized at or started with negative one(-1), which means, no item is selected
++ if the variable is 0, it means, the first item should be selected
++ highlighting the current item in an **Active** class also involves conditional statements
+
+### Let React know that this component shall have data or state that might change over time - (onClick)
++ Use a built-in function called **useState** - which is a Hook (a state Hook).
++ A **Hook** is a function that allows us to tap into built-in features in React.
++ Below, instead of initializing useState function, we shall call it. It shall be assigned to a variable. But set it to begin with an initial value of -1 for an array.
++ updater function updates functions and React is notified. React knows that the state of our **component** has changed. By this change, React will re-render (update what it has earlier loaded for response/return) which causes DOM - Document Object Model - 
+to be updated. And this enables DOM to match the new component State. DOM creates nodes contained in an application.
+
+
++ selectedIndex (arr[0]) is the variable.
++ setSelectedIndex (arr[1]) is an updater function which updates functions
++ Alternatively, we can use the state Hook to declare another variable called Name
+
+((The  following code is still in progress as of then, there has errors which are to be corrected in the next stage. Use this ONLY for demonstration))
+
+```
+// Not without Errors !!!
+import { useState } from "react";
+
+
+
+function ListGroup() {
+
+  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+  let selectedIndex = 0;
+
+  // Hook
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  // arr[0]  variable (selectedIndex)
+  // arr[1]  updater function updates functions and React is notified
+  const [name, setName] = useState('');
+
+  return (
+    <>
+      <h1>List</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item, index) => (
+          <li 
+            className={selectedIndex === index ? "list-group-item active" : "list-group-item" }
+            key={item} 
+            onClick={() => {selectedIndex = index; }}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+```
+### Highlights an Item onClick 
+
+**At long last, with this code, as you click on an item, the current item on the list is highlighted.**
+
+```
+import { useState } from "react";
+
+
+
+function ListGroup() {
+
+  let items =["New York", "San Francisco", "Tokyo", "London", "Paris"];
+ 
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  
+  return (
+    <>
+      <h1>List</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item, index) => (
+          <li 
+            className={selectedIndex === index ? "list-group-item active" : "list-group-item" }
+            key={item} 
+            onClick={() => {setSelectedIndex(index); }}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+```
+
+## Adding another Component/Instance to our App (App.tsx)
+
+
+Current App.tsx:
+
+```
+import ListGroup from './components/ListGroup';
+function App() {
+  // return <div><Message></Message></div>; OR, shorter ---
+  return <div><ListGroup /></div>;
+}
+
+export default App; // export this component so that it can be used
+
+```
+Now, simply insert the latest state of ListGroup into the <div> tag, besides the first component.
+
+```
+import ListGroup from './components/ListGroup';
+function App() {
+  // return <div><Message></Message></div>; OR, shorter ---
+  return <div><ListGroup /><ListGroup /></div>;
+}
+
+export default App; // export this component so that it can be used
+
+```
+
+ + Each Component has its own State.
+
+ We realize that they act same as the latest ListGroup component that was added. And this is a repetition in our web page and we don't want that. So, delete one of them.
+
+ ## Using only one List of a component for any nature of items
++ This is done by **Passing Data via Props
+> **The list of items is defined in the App.tsx to be passed on onto other functions (or components)**
+
+We start by defining the **shape** of the **input** known as **props** or the shape of the **interface of the object**
+
+
+```
+
+// {items: [], heading: string} --- intended shape of the input
+
+interface Props {
+  items: string[];
+  heading: string;
+  ...
+};
+
+```
+## ListGroup.tsx component & App.tsx: Passing Data via Props
++ Data to be passed through Parent's Props(properties) are declared in App.tsx in a list variable named **items**
+
++ **ListGroup.tsx**
+
+```
+import { useState } from "react";
+
+interface Props {
+  items: string[];
+  heading: string;
+}
+
+function ListGroup({items, heading }: Props) {
+
+  
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  
+  return (
+    <>
+      <h1>{heading}</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item, index) => (
+          <li 
+            className={
+              selectedIndex === index 
+                ? "list-group-item active" : "list-group-item" }
+            key={item} 
+            onClick={() => {setSelectedIndex(index); }}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+```
+
++ **App.tsx**
+
+```
+import ListGroup from "./components/ListGroup";
+
+function App() {
+  let items = ["New York", "San Francisco", "Tokyo", "London", "Paris"];
+ 
+  return (
+  <div>
+    <ListGroup items={items} heading="Cities" />
+  </div>);
+}
+
+export default App; 
+
+```
+
+
+## Passing Functions via Props
+
+1. at ListGroup.tsx: Declare **onSelectItem** // same as onClick somehow. It is a type of a function which has item as a void string type i.e (item: string) => void
+2. at App.tsx: Declare the function - const handleSelectItem = (item: string) => {
+    console.log(item);}
+3. at App.tsx: Attach the function **handleSelectItem** along side with ListGroup inside <div>
+4. at ListGroup.tsx: Include the function name **onSelectItem** at the ListGroup function element
+ and also at the **onClick** element.
+
+### **Outcome** of the code so far:
++ As you click the items in the data list which are displayed, the items shall be printed at the console according to which one is clicked first.
+
+**Here are both files:**
+
+**ListGroup.tsx**
+
+```
+import { useState } from "react";
+
+interface Props {
+  items: string[];
+  heading: string;
+  // (item: string) => void
+  onSelectItem // same as onClick somehow. It is a type of a function which has item as a void string type
+}
+
+function ListGroup({items, heading, onSelectItem }: Props) {
+
+  
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  
+  return (
+    <>
+      <h1>{heading}</h1>
+      {items.length === 0 && <p>No item found</p>}   
+      <ul className="list-group"> 
+        {items.map((item, index) => (
+          <li 
+            className={
+              selectedIndex === index 
+                ? "list-group-item active" 
+                : "list-group-item" 
+            }
+            key={item} 
+            onClick={() => {
+              setSelectedIndex(index);
+              onSelectItem(item);
+            }}
+          >
+            {item}
+          </li>
+        ))}  
+      </ul>
+    </>
+  )};
+
+export default ListGroup;
+
+```
+
+**App.tsx**
+
+```
+import ListGroup from "./components/ListGroup";
+
+function App() {
+  let items = ["New York", "San Francisco", "Tokyo", "London", "Paris"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  }
+  return (
+  <div>
+    <ListGroup items={items} heading="Cities" onSelectItem={handleSelectItem} />
+  </div>);
+}
+
+export default App; 
+
+```
+
 
 

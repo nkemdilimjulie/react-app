@@ -1,7 +1,15 @@
-import ListGroup from './components/ListGroup';
+import ListGroup from "./components/ListGroup";
+
 function App() {
-  // return <div><Message></Message></div>; OR, shorter ---
-  return <div><ListGroup /></div>;
+  let items = ["New York", "San Francisco", "Tokyo", "London", "Paris"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  }
+  return (
+  <div>
+    <ListGroup items={items} heading="Cities" onSelectItem={handleSelectItem} />
+  </div>);
 }
 
-export default App; // export this component so that it can be used
+export default App; 
+
