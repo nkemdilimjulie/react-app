@@ -705,4 +705,254 @@ export default App;
 ```
 
 
+## Passing Children
+
+Just as we pass ListGroup.tsx args like items(i.e. data) and heading to the <div> in App.tsx file, so do we pass **children** as well
+
+First, create a component that can pass **children**. We gonna create a file named **Alert.tsx** to illustrate this.
+
+A shortcut:
+> Install ES7+ Extension from VS Code Extensions by typing: ES7+ ; then install it.
+
++ Open Alert.tsx file and type: **rafce**. This is automatically generated for use in your new file:
+
+```
+import React from 'react'
+
+const Alert = () => {
+  return (
+    <div>Alert</div>
+  )
+}
+
+export default Alert
+```
+
++ Once code snippet is generated, the cursor remains positioned on all the point where you have the name of your component. This enable you to change the name, if need be.
++ Remember to delete ``import React from react`` because we don't need it.
+
+At this early point, we can 'carry' this Alert.tsx to our App.tsx component to see what happens.
+
+> How to 'carry' a component file - Alert.tsx - into our App component file:
+
++ Open App.tsx
++ delete any other component name inside <div> that's already there which is not needed 
++ Then, enter your component file by typing:
+```
+    <div>
+        <Alert />
+    </div>
+    ...
+```
+
+> Here's an app that displays an alert of "Hello Julie" (Or, any warning alert) at a web page using a snippet borrowed from Bootstrap:
+It invoves App.tsx and Alert.tsx
+
+**App.tsx**
+
+```
+import Alert from "./components/Alert";
+
+function App() {
+  
+  return (
+    <div>
+      <Alert text="Hello Julie" />
+    </div>
+  );
+}
+
+export default App; 
+
+```
+
+**Alert.tsx***
+
+```
+
+interface Props {
+    text: string;
+}
+
+const Alert = ({text}: Props) => {
+  return (
+    <div className="alert alert-primary">{text}</div>
+)
+}
+
+export default Alert
+```
+
+The text passed above is really too short. It can be too cumbersome to pass on a long and large text like HTML content.
+
+### Now, to actually pass text as a child
+
+In react, there is a special prop which all components support and that is called **children**
+
+Using Alert.tsx, change your component's interface Props to `children`. Then, we can pass our text as a child to this component.
+
+**Alert.tsx**
+
+```
+interface Props {
+    children: string;
+}
+
+const Alert = ({children}: Props) => {
+  return (
+    <div className="alert alert-primary">{children}</div>
+)
+}
+
+export default Alert
+```
+
+**App.tsx**
+```
+import Alert from "./components/Alert";
+
+function App() {
+  
+  return (
+    <div>
+      <Alert>
+        Hello Julie
+      </Alert>
+    </div>
+  );
+}
+
+export default App; 
+
+```
+
+**App.tsx**
+
+```
+import Alert from "./components/Alert";
+
+function App() {
+  
+  return (
+    <div>
+      <Alert>
+        Hello <span>Julie, I just wanna check something</span>
+      </Alert>
+    </div>
+  );
+}
+
+export default App; 
+
+**Alert.tsx***
+
+```
+import { ReactNode } from "react";
+
+interface Props {
+    children: ReactNode;
+}
+
+const Alert = ({children}: Props) => {
+  return (
+    <div className="alert alert-primary">{children}</div>
+)
+}
+
+export default Alert
+```
+
+
+**React Dev Tools**
++ Used for inspecting and analizing React apps
+
+## Exercise:
+## Building a Button Component
++ Goto getbootstrap.com -> Docs -> Buttons -> copy any and paste this into Button.tsx.
++ Define this function starting with a **const** statement and please, no <div>! - for now!
+
+**Button.tsx**
+
+```
+const Button = () => {
+  return (
+    
+      <button 
+        type="button" 
+        className="btn btn-success">
+        Success
+      </button>
+      
+  )
+}
+
+export default Button
+```
+**App.tsx**
+
+```
+import Button from "./components/Button";
+
+function App() {
+  
+  return (
+    <div><Button>
+        Login
+      </Button>
+    </div>
+  );
+}
+
+export default App; 
+
+```
+
++ <div> is allowed here because there could be also other nodes or components in a separate <div>.
+
+
+### Setting colors
+
+**Button.tsx**
+
+```
+import React from "react";
+
+interface Props {
+  children: string;
+  color?: 'primary'|'seondary'| 'danger';
+  onClick: () => void;
+}
+const Button = ({children, onClick, color='primary'}: Props) => {
+  return (
+    
+      <button 
+        className={'btn btn-' + color} onClick={onClick}>
+        {children}
+      </button>
+      
+  )
+}
+
+export default Button
+```
+
+**App.tsx**
+
+```
+import Button from "./components/Button";
+
+function App() {
+  
+  return (
+    <div>
+      <Button color='primary' onClick={() => console.log('Clicked')}>
+        Login
+      </Button>
+    </div>
+  );
+}
+
+export default App; 
+
+```
 
