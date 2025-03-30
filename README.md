@@ -844,6 +844,8 @@ function App() {
 
 export default App; 
 
+```
+
 **Alert.tsx***
 
 ```
@@ -887,7 +889,10 @@ const Button = () => {
 }
 
 export default Button
+
+
 ```
+
 **App.tsx**
 
 ```
@@ -907,7 +912,7 @@ export default App;
 
 ```
 
-+ <div> is allowed here because there could be also other nodes or components in a separate <div>.
++ `<div>` is allowed here because there could be also other nodes or components in a separate <div>.
 
 
 ### Setting colors
@@ -934,6 +939,7 @@ const Button = ({children, onClick, color='primary'}: Props) => {
 }
 
 export default Button
+
 ```
 
 **App.tsx**
@@ -953,6 +959,72 @@ function App() {
 }
 
 export default App; 
+```
+
+
+
++ **Alert.tsx**: Remember, every Prop listed in the **interface Props** of a component (react file) should be included inside of **const** and also inside return - either in ```<div>``` or in `<button>`.
+
+### Dismissable Alerts 
+
+**Alert.tsx**
 
 ```
+import { ReactNode } from "react";
+
+interface Props {
+    children: ReactNode;
+    onClose: () => void;
+}
+
+const Alert = ({children, onClose}: Props) => {
+  return (
+    <div className="alert alert-primary alert-dismissible ">
+      {children}
+      <button type="button" className="btn-close" onClick={onClose} data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+)
+}
+
+export default Alert
+```
+
+**App.tsx**
+
+```
+import { useState } from "react";
+import Alert from "./components/Alert";
+import Button from "./components/Button";
+
+
+function App() {
+  const [alertVisible,  setAlertVisiblity] = useState(false);
+
+
+  return (
+    <div>
+      { alertVisible && <Alert onClose={() => setAlertVisiblity(false)}>My alert</Alert>}
+      <Button color='primary' onClick={() => setAlertVisiblity(true)}>
+        My Button
+      </Button>
+    </div>
+  );
+}
+
+export default App; 
+
+```
+![alt text](image.png)
+
+
+**END**
+
+#### Just for REMEMBRANCE
++ A video to learn this was written to last 1:20:03 hours. But it took me 3 days (27-29th March 2025)!!!
++ It is because I have to PRACTICE along with the video lesson and make this Documentation possible as well.
++ Thank you, Jesus Christ !!!
+
+
+
+
 
